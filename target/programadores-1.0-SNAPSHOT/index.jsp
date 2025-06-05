@@ -9,68 +9,69 @@
 </head>
 <body>
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
   </div>
 </nav>
+
 <%
 Connection con = null;
 Statement st = null;
 ResultSet rs = null;
 %>
 
-
-
 <div class="container mt-5">
     <div class="row">
         <!-- FORMULARIO -->
         <div class="col-md-4">
-            <h4>nombreProgramador</h4>
+            <h4>Registrar Programador</h4>
             <form method="post" action="crear.jsp">
                 <div class="mb-3">
+                    <label>Nombre</label>
                     <input type="text" class="form-control" name="nombre" placeholder="Andres Gonzalez" required>
                 </div>
-                <h6>lenguaje que m√°s domina</h6>
                 <div class="mb-3">
-                    <input type="text" class="form-control" name="lenguajeD" placeholder="java" required>
+                    <label>Lenguaje que m·s domina</label>
+                    <input type="text" class="form-control" name="lenguajeD" placeholder="Java" required>
                 </div>
-                <h6>lenguajes que conoce</h6>
                 <div class="mb-3">
+                    <label>Cantidad de lenguajes que conoce</label>
                     <input type="number" class="form-control" name="lenguajeC" placeholder="2" required>
                 </div>
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="estudiante">
+                    <input type="checkbox" class="form-check-input" id="estudiante" name="estudiante" value="1">
                     <label class="form-check-label" for="estudiante">Estudiante</label>
                 </div>
                 <button type="submit" class="btn btn-outline-primary" name="Guardar">Guardar</button>
@@ -79,14 +80,15 @@ ResultSet rs = null;
 
         <!-- TABLA -->
         <div class="col-md-8">
-            <h2>Programadores registrados</h2>
+            <h2>Programadores Registrados</h2>
             <table class="table table-dark table-striped">
                 <thead>
                     <tr>
-                        <th>id</th>
-                        <th>nombre</th>
-                        <th>lenguaje que domina</th>
-                        <th>lenguajes que conoce</th>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Lenguaje que domina</th>
+                        <th>Cantidad que conoce</th>
+                        <th>Estudiante</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -104,6 +106,7 @@ ResultSet rs = null;
                         <td><%= rs.getString("nombre") %></td>
                         <td><%= rs.getString("lenguajeD") %></td>
                         <td><%= rs.getInt("lenguajeC") > 1 ? "muchos" : rs.getInt("lenguajeC") %></td>
+                        <td><%= rs.getInt("estudiante") == 1 ? "SÌ" : "No" %></td>
                     </tr>
                 <%
                     }

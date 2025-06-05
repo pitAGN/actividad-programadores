@@ -9,7 +9,7 @@
 <body>
 <%
 Connection con = null;
-Statement st = null;
+PreparedStatement ps = null;
 %>
 
 <div class="container mt-5">
@@ -27,6 +27,10 @@ Statement st = null;
             <label for="lenguajeC" class="form-label">Cantidad de lenguajes que conoce</label>
             <input type="number" class="form-control" name="lenguajeC" id="lenguajeC" required>
         </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="estudiante" name="estudiante" value="1">
+            <label class="form-check-label" for="estudiante">Estudiante</label>
+        </div>
         <button type="submit" class="btn btn-primary" name="Guardar">Guardar</button>
     </form>
 
@@ -35,13 +39,21 @@ Statement st = null;
         String nombre = request.getParameter("nombre");
         String lenguajeD = request.getParameter("lenguajeD");
         int lenguajeC = Integer.parseInt(request.getParameter("lenguajeC"));
+        int estudiante = request.getParameter("estudiante") != null ? 1 : 0;
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/programadores", "root", "");
-            st = con.createStatement();
-            String sql = "INSERT INTO tblprogramadores (nombre, lenguajeD, lenguajeC) VALUES ('" + nombre + "', '" + lenguajeD + "', " + lenguajeC + ")";
-            st.executeUpdate(sql);
+
+            String sql = "INSERT INTO tblprogramadores (nombre, lenguajeD, lenguajeC, estudiante) VALUES (?, ?, ?, ?)";
+            ps = con.prepareStatement(sql);
+            ps.setString(1, nombre);
+            ps.setString(2, lenguajeD);
+            ps.setInt(3, lenguajeC);
+            ps.setInt(4, estudiante);
+
+            ps.executeUpdate();
+            con.close();
             response.sendRedirect("index.jsp");
         } catch (Exception e) {
             out.println("Error al guardar los datos: " + e.getMessage());
