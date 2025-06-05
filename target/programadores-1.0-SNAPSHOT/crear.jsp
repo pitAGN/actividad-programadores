@@ -12,27 +12,6 @@ Connection con = null;
 PreparedStatement ps = null;
 %>
 
-<div class="container mt-5">
-    <h2>Formulario Programador</h2>
-    <form method="post" action="crear.jsp">
-        <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" name="nombre" id="nombre" required>
-        </div>
-        <div class="mb-3">
-            <label for="lenguajeD" class="form-label">Lenguaje que domina</label>
-            <input type="text" class="form-control" name="lenguajeD" id="lenguajeD" required>
-        </div>
-        <div class="mb-3">
-            <label for="lenguajeC" class="form-label">Cantidad de lenguajes que conoce</label>
-            <input type="number" class="form-control" name="lenguajeC" id="lenguajeC" required>
-        </div>
-        <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="estudiante" name="estudiante" value="1">
-            <label class="form-check-label" for="estudiante">Estudiante</label>
-        </div>
-        <button type="submit" class="btn btn-primary" name="Guardar">Guardar</button>
-    </form>
 
     <%
     if (request.getParameter("Guardar") != null) {
