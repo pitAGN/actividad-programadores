@@ -54,7 +54,6 @@ ResultSet rs = null;
 
 <div class="container mt-5">
     <div class="row">
-        <!-- FORMULARIO -->
         <div class="col-md-4">
             <h4>Registrar Programador</h4>
             <form method="post" action="crear.jsp">
@@ -78,7 +77,7 @@ ResultSet rs = null;
             </form>
         </div>
 
-        <!-- TABLA -->
+        
         <div class="col-md-8">
             <h2>Programadores Registrados</h2>
             <table class="table table-dark table-striped">
@@ -89,6 +88,7 @@ ResultSet rs = null;
                         <th>Lenguaje que domina</th>
                         <th>Cantidad que conoce</th>
                         <th>Estudiante</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -107,6 +107,9 @@ ResultSet rs = null;
                         <td><%= rs.getString("lenguajeD") %></td>
                         <td><%= rs.getInt("lenguajeC") > 1 ? "muchos" : rs.getInt("lenguajeC") %></td>
                         <td><%= rs.getInt("estudiante") == 1 ? "Sí" : "No" %></td>
+                        <td>
+                            <a href="editar.jsp?id_programador=<%= rs.getInt("id_programador") %> &nombre=<%= rs.getString("nombre") %>&lenguajeD=<%= rs.getString("lenguajeD") %>&LenguajeC=<%= rs.getInt("lenguajeC") > 1 ? "muchos" : rs.getInt("lenguajeC") %> &estudiante=<%= rs.getInt("estudiante") == 1 ? "Sí" : "No" %>" class="btn btn-outline-warning" ><i class="fa-solid fa-pencil" style="color: #000000;"></i></a>
+                        </td>                        
                     </tr>
                 <%
                     }
