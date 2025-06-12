@@ -1,4 +1,5 @@
 <%@page import="java.sql.*"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,75 +10,95 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li>
-      </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-    </div>
-  </div>
-</nav>
-
 <%
 Connection con = null;
 Statement st = null;
 ResultSet rs = null;
+
+String idEditar = request.getParameter("id_programador");
+String nombreEditar = request.getParameter("nombre");
+String lenguajeDEditar = request.getParameter("lenguajeD");
+String lenguajeCEditar = request.getParameter("lenguajeC");
+String estudianteEditar = request.getParameter("estudiante");
+
+// Insertar nuevo
+if (request.getParameter("Guardar") != null) {
+    String nombre = request.getParameter("nombre");
+    String lenguajeD = request.getParameter("lenguajeD");
+    String lenguajeC = request.getParameter("lenguajeC");
+    int estudiante = request.getParameter("estudiante") != null ? 1 : 0;
+
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/programadores", "root", "");
+        st = con.createStatement();
+        String sql = "INSERT INTO tblprogramadores (nombre, lenguajeD, lenguajeC, estudiante) VALUES ('" + nombre + "', '" + lenguajeD + "', '" + lenguajeC + "', " + estudiante + ")";
+        st.executeUpdate(sql);
+        response.sendRedirect("index.jsp");
+        return;
+    } catch (Exception e) {
+        out.println("Error al guardar: " + e.getMessage());
+    }
+}
+
+// Actualizar existente
+if (request.getParameter("Actualizar") != null) {
+    String idActualizar = request.getParameter("id_programador");
+    String nombre = request.getParameter("nombre");
+    String lenguajeD = request.getParameter("lenguajeD");
+    String lenguajeC = request.getParameter("lenguajeC");
+    int estudiante = request.getParameter("estudiante") != null ? 1 : 0;
+
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/programadores", "root", "");
+        st = con.createStatement();
+        String sql = "UPDATE tblprogramadores SET nombre='" + nombre + "', lenguajeD='" + lenguajeD + "', lenguajeC=" + lenguajeC + ", estudiante=" + estudiante + " WHERE id_programador=" + idActualizar;
+        st.executeUpdate(sql);
+        response.sendRedirect("index.jsp");
+        return;
+    } catch (Exception e) {
+        out.println("Error al actualizar: " + e.getMessage());
+    }
+}
 %>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Gesti√≥n de Programadores</a>
+  </div>
+</nav>
 
 <div class="container mt-5">
     <div class="row">
+        <!-- Formulario -->
         <div class="col-md-4">
-            <h4>Registrar Programador</h4>
-            <form method="post" action="crear.jsp">
+            <h4><%= idEditar != null ? "Editar Programador" : "Registrar Programador" %></h4>
+            <form method="post" action="index.jsp">
+                <input type="hidden" name="id_programador" value="<%= idEditar != null ? idEditar : "" %>">
                 <div class="mb-3">
                     <label>Nombre</label>
-                    <input type="text" class="form-control" name="nombre" placeholder="Andres Gonzalez" required>
+                    <input type="text" class="form-control" name="nombre" placeholder="Andres Gonzalez" value="<%= nombreEditar != null ? nombreEditar : "" %>" required>
                 </div>
                 <div class="mb-3">
-                    <label>Lenguaje que m·s domina</label>
-                    <input type="text" class="form-control" name="lenguajeD" placeholder="Java" required>
+                    <label>Lenguaje que m√°s domina</label>
+                    <input type="text" class="form-control" name="lenguajeD" value="<%= lenguajeDEditar != null ? lenguajeDEditar : "" %>" placeholder="Java" required>
                 </div>
                 <div class="mb-3">
                     <label>Cantidad de lenguajes que conoce</label>
-                    <input type="number" class="form-control" name="lenguajeC" placeholder="2" required>
+                    <input type="number" class="form-control" name="lenguajeC" value="<%= lenguajeCEditar != null ? lenguajeCEditar : "" %>" placeholder="2" required>
                 </div>
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="estudiante" name="estudiante" value="1">
+                    <input type="checkbox" class="form-check-input" id="estudiante" name="estudiante" value="1" <%= "S√≠".equals(estudianteEditar) || "1".equals(estudianteEditar) ? "checked" : "" %>>
                     <label class="form-check-label" for="estudiante">Estudiante</label>
                 </div>
-                <button type="submit" class="btn btn-outline-primary" name="Guardar">Guardar</button>
+                <button type="submit" class="btn btn-outline-primary" name="<%= idEditar != null ? "Actualizar" : "Guardar" %>">
+                    <%= idEditar != null ? "Actualizar" : "Guardar" %>
+                </button>
             </form>
         </div>
 
-        
+        <!-- Tabla -->
         <div class="col-md-8">
             <h2>Programadores Registrados</h2>
             <table class="table table-dark table-striped">
@@ -106,15 +127,24 @@ ResultSet rs = null;
                         <td><%= rs.getString("nombre") %></td>
                         <td><%= rs.getString("lenguajeD") %></td>
                         <td><%= rs.getInt("lenguajeC") > 1 ? "muchos" : rs.getInt("lenguajeC") %></td>
-                        <td><%= rs.getInt("estudiante") == 1 ? "SÌ" : "No" %></td>
+                        <td><%= rs.getInt("estudiante") == 1 ? "S√≠" : "No" %></td>
                         <td>
-                            <a href="editar.jsp?id_programador=<%= rs.getInt("id_programador") %> &nombre=<%= rs.getString("nombre") %>&lenguajeD=<%= rs.getString("lenguajeD") %>&LenguajeC=<%= rs.getInt("lenguajeC") > 1 ? "muchos" : rs.getInt("lenguajeC") %> &estudiante=<%= rs.getInt("estudiante") == 1 ? "SÌ" : "No" %>" class="btn btn-outline-warning" ><i class="fa-solid fa-pencil" style="color: #000000;"></i></a>
-                        </td>                        
+                            <a href="index.jsp?id_programador=<%= rs.getInt("id_programador") %>&nombre=<%= rs.getString("nombre") %>&lenguajeD=<%= rs.getString("lenguajeD") %>&lenguajeC=<%= rs.getInt("lenguajeC") %>&estudiante=<%= rs.getInt("estudiante") == 1 ? "S√≠" : "No" %>" class="btn btn-outline-warning btn-sm">
+                                <i class="fa-solid fa-pencil"></i> 
+                            </a>
+                            <button class="btn btn-outline-danger btn-sm">
+                                <i class="fa-solid fa-trash"></i> 
+                            </button>
+                        </td>
                     </tr>
                 <%
                     }
                 } catch (Exception e) {
                     out.println("Error: " + e.getMessage());
+                } finally {
+                    try { if (rs != null) rs.close(); } catch (SQLException ex) {}
+                    try { if (st != null) st.close(); } catch (SQLException ex) {}
+                    try { if (con != null) con.close(); } catch (SQLException ex) {}
                 }
                 %>
                 </tbody>
