@@ -1,44 +1,56 @@
-<%@page import="java.sql.*"%>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Registrar Programador</title>
-    <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+<%@page import="dao.ProgramadorDAO" %>
+<%@page import="modelo.Programador" %>
 <%
-Connection con = null;
-PreparedStatement ps = null;
-%>
-
-
-    <%
-    if (request.getParameter("Guardar") != null) {
+    if (request.getMethod().equalsIgnoreCase("POST")) {
         String nombre = request.getParameter("nombre");
         String lenguajeD = request.getParameter("lenguajeD");
         int lenguajeC = Integer.parseInt(request.getParameter("lenguajeC"));
+        String password = request.getParameter("password");
         int estudiante = request.getParameter("estudiante") != null ? 1 : 0;
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/programadores", "root", "");
+        Programador p = new Programador();
+        p.setNombre(nombre);
+        p.setLenguajeD(lenguajeD);
+        p.setLenguajeC(lenguajeC);
+        p.setPassword(password);
+        p.setEstudiante(estudiante);
 
-            String sql = "INSERT INTO tblprogramadores (nombre, lenguajeD, lenguajeC, estudiante) VALUES (?, ?, ?, ?)";
-            ps = con.prepareStatement(sql);
-            ps.setString(1, nombre);
-            ps.setString(2, lenguajeD);
-            ps.setInt(3, lenguajeC);
-            ps.setInt(4, estudiante);
-
-            ps.executeUpdate();
-            con.close();
-            response.sendRedirect("index.jsp");
-        } catch (Exception e) {
-            out.println("Error al guardar los datos: " + e.getMessage());
-        }
+        new ProgramadorDAO().insertar(p);
+        response.sendRedirect("index.jsp");
+        return;
     }
-    %>
-</div>
+%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Programador</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+    <h1>Crear Programador</h1>
+    <form method="post">
+        <div class="mb-3">
+            <label>Nombre</label>
+            <input name="nombre" class="form-control" placeholder="Nombre">
+        </div>
+        <div class="mb-3">
+            <label>Lenguaje Dominante</label>
+            <input name="lenguajeD" class="form-control" placeholder="Lenguaje">
+        </div>
+        <div class="mb-3">
+            <label>Cantidad de Lenguajes</label>
+            <input name="lenguajeC" type="number" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label>Password</label>
+            <input name="password" type="password" class="form-control">
+        </div>
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" name="estudiante" id="estudiante">
+            <label class="form-check-label" for="estudiante">Estudiante</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
 </body>
 </html>

@@ -1,2 +1,5 @@
 com\mycompany\programadores\resources\JakartaEE8Resource.class
+dao\ProgramadorDAO.class
+modelo\Programador.class
 com\mycompany\programadores\JakartaRestConfiguration.class
+dao\ConexionBD.class

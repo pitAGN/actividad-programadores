@@ -1,0 +1,138 @@
+/* Reset general */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Fondo de la página con degradado entre negro y gris claro */
+body {
+    font-family: 'Arial', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(45deg, #2d2d2d, #7f8c8d); /* Degradado entre gris oscuro y gris claro */
+    background-size: 400% 400%;
+    animation: gradientBackground 15s ease infinite; /* Movimiento suave del gradiente */
+}
+
+/* Animación para mover el fondo entre negro y gris */
+@keyframes gradientBackground {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Contenedor del formulario */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Caja del formulario con efecto de profundidad */
+.login-box {
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Sombra para darle profundidad */
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    background-color: #34495e; /* Fondo gris oscuro con profundidad */
+    animation: backgroundColorChange 5s ease infinite; /* Alternancia de color */
+}
+
+/* Animación para alternar entre gris y negro */
+@keyframes backgroundColorChange {
+    0% { background-color: #34495e; } /* Gris oscuro */
+    50% { background-color: #2d2d2d; } /* Gris muy oscuro, casi negro */
+    100% { background-color: #34495e; } /* Gris oscuro */
+}
+
+h2 {
+    color: #ecf0f1; /* Blanco grisáceo para el texto */
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* Estilo para los campos de texto */
+.textbox {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.textbox input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.2); /* Fondo semitransparente */
+    color: white;
+    transition: 0.3s;
+}
+
+.textbox input:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Estilos para el botón de envío usando el atributo name="login" */
+button[name="login"] {
+    width: 100%;
+    padding: 12px 0;
+    border-radius: 8px;
+    border: none;
+    background-color: #3498db; /* Fondo azul */
+    color: white; /* Texto blanco */
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Efecto 3D con sombra */
+    transform: translateY(0); /* Posición inicial */
+}
+
+/* Efecto hover para el botón de inicio de sesión */
+button[name="login"]:hover {
+    background-color: #2980b9; /* Azul más oscuro */
+    transform: translateY(-5px); /* Efecto de levantamiento 3D */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Aumenta la sombra en hover */
+}
+
+/* Estilos para el enlace de "Crear cuenta" */
+.btn-register {
+    display: inline-block;
+    margin-top: 15px;
+    color: #ffffff; /* Color blanco */
+    font-size: 16px;
+    text-decoration: none;
+    padding: 8px 12px;
+    border: 1px solid #ffffff; /* Borde blanco */
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+/* Efecto hover para el enlace de "Crear cuenta" */
+.btn-register:hover {
+    background-color: #3498db; /* Fondo azul */
+    color: white; /* Texto blanco */
+    border: 1px solid #3498db; /* Borde azul */
+}
+
+.footer-links {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.footer-links a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
