@@ -1,4 +1,4 @@
-package dao;
+        package dao;
 
 import modelo.Programador;
 import java.sql.Connection;
@@ -65,7 +65,7 @@ public class ProgramadorDAO {
             ps.setString(1, p.getNombre());
             ps.setString(2, p.getLenguajeD());
             ps.setInt(3, p.getLenguajeC());
-            ps.setString(4, p.getPassword());
+            ps.setString(4, p.getPassword());   
             ps.setInt(5, p.getEstudiante());
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -113,7 +113,7 @@ public class ProgramadorDAO {
 
             System.out.println("DEBUG: Intentando login con Nombre: '" + nombre + "' y Password: '" + password + "'");
 
-            try (ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {    
                 if (rs.next()) {
                     p = new Programador();
                     p.setId(rs.getInt("id_programador"));

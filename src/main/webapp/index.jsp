@@ -51,7 +51,7 @@
         String accion = request.getParameter("accion");
         try {
             Programador p = new Programador();
-            
+
             if ("actualizar".equals(accion)) {
                 String idForm = request.getParameter("idProgramador");
                 if (idForm != null && !idForm.isEmpty()) {
@@ -70,7 +70,7 @@
                 response.sendRedirect("index.jsp");
                 return;
             }
-            
+
             p.setPassword(request.getParameter("password"));
             p.setEstudiante(request.getParameter("estudiante") != null ? 1 : 0);
 
@@ -81,7 +81,7 @@
                 dao.actualizar(p);
                 session.setAttribute("mensajeExito", "Programador actualizado exitosamente.");
             }
-            
+
             response.sendRedirect("index.jsp");
             return;
         } catch (Exception e) {
@@ -89,7 +89,7 @@
             e.printStackTrace();
         }
     }
-    
+
     lista = dao.listarTodos();
 %>
 <!DOCTYPE html>
@@ -105,10 +105,10 @@
 <body class="bg-dark text-light">
     <div class="login-container">
         <div class="login-box p-4 rounded shadow-lg">
-            
+
             <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
                 <h1 class="h3 text-light mb-0">Programadores Registrados</h1>
-                
+
                 <div class="d-flex align-items-center">
                     <a href="index.jsp?id=<%= idUsuario != null ? idUsuario : "" %>" class="btn btn-link text-info text-decoration-none p-0 me-2" title="Editar tu perfil">
                         <i class="fas fa-user me-1"></i><%= nombreUsuario != null ? nombreUsuario : "Usuario" %>
@@ -129,7 +129,7 @@
                     <%= mensajeExito %>
                 </div>
             <% } %>
-            
+
             <div class="row">
                 <div class="col-md-4">
                     <h4 class="text-light mt-0 mb-3"><%= formAction.equals("crear") ? "Crear Nuevo Programador" : "Editar Programador" %></h4>
@@ -141,26 +141,26 @@
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre:</label>
                             <input type="text" class="form-control" id="nombre" name="nombre" required
-                                value="<%= programadorAEditar != null ? programadorAEditar.getNombre() : "" %>">
+                                   value="<%= programadorAEditar != null ? programadorAEditar.getNombre() : "" %>">
                         </div>
                         <div class="mb-3">
                             <label for="lenguajeD" class="form-label">Lenguaje Dominante:</label>
                             <input type="text" class="form-control" id="lenguajeD" name="lenguajeD" required
-                                value="<%= programadorAEditar != null ? programadorAEditar.getLenguajeD() : "" %>">
+                                   value="<%= programadorAEditar != null ? programadorAEditar.getLenguajeD() : "" %>">
                         </div>
                         <div class="mb-3">
                             <label for="lenguajeC" class="form-label">Cantidad Lenguajes:</label>
                             <input type="number" class="form-control" id="lenguajeC" name="lenguajeC" required min="0"
-                                value="<%= programadorAEditar != null ? programadorAEditar.getLenguajeC() : "" %>">
+                                   value="<%= programadorAEditar != null ? programadorAEditar.getLenguajeC() : "" %>">
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña:</label>
                             <input type="password" class="form-control" id="password" name="password" required
-                                value="<%= programadorAEditar != null ? programadorAEditar.getPassword() : "" %>">
+                                   value="<%= programadorAEditar != null ? programadorAEditar.getPassword() : "" %>">
                         </div>
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="checkbox" id="estudiante" name="estudiante" value="1"
-                                <%= programadorAEditar != null && programadorAEditar.getEstudiante() == 1 ? "checked" : "" %>>
+                                   <%= programadorAEditar != null && programadorAEditar.getEstudiante() == 1 ? "checked" : "" %>>
                             <label class="form-check-label" for="estudiante">
                                 Es Estudiante
                             </label>
@@ -174,7 +174,6 @@
 
                 <div class="col-md-8">
                     <h4 class="text-light mt-0 mb-3">Empleados</h4>
-                    
                     <div class="table-responsive">
                         <table class="table table-dark table-striped table-hover table-bordered caption-top">
                             <caption>Lista de programadores registrados</caption>
@@ -184,37 +183,37 @@
                                     <th>Nombre</th>
                                     <th>Lenguaje Dominante</th>
                                     <th>Cantidad</th>
-                                    <th>Contraseña</th>
                                     <th>Estudiante</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <% if (lista != null && !lista.isEmpty()) { %>
-                                    <% for (Programador p : lista) { %>
-                                        <tr>
-                                            <td><%= p.getId() %></td>
-                                            <td><%= p.getNombre() %></td>
-                                            <td><%= p.getLenguajeD() %></td>
-                                            <td><%= p.getLenguajeC() > 1 ? "muchos" : p.getLenguajeC() %></td>
-                                            <td><%= p.getPassword() %></td>
-                                            <td><%= p.getEstudiante() == 1 ? "Sí" : "No" %></td>
-                                            <td>
-                                                <a href="index.jsp?id=<%= p.getId() %>" class="btn btn-warning btn-sm me-2" title="Editar este programador">
-                                                    <i class="fas fa-pencil-alt"></i>
-                                                </a>
-                                                <form method="post" action="borrar.jsp" style="display:inline;">
-                                                    <input type="hidden" name="id" value="<%= p.getId() %>">
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar este programador?')" title="Eliminar este programador">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    <% } %>
-                                <% } else { %>
+                                <% if (lista != null && !lista.isEmpty()) {
+                                    for (Programador p : lista) {
+                                        if (!"admin".equalsIgnoreCase(p.getNombre())) { %>
+                                            <tr>
+                                                <td><%= p.getId() %></td>
+                                                <td><%= p.getNombre() %></td>
+                                                <td><%= p.getLenguajeD() %></td>
+                                                <td><%= p.getLenguajeC() > 1 ? "muchos" : p.getLenguajeC() %></td> 
+                                                <td><%= p.getEstudiante() == 1 ? "Sí" : "No" %></td>
+                                                <td>
+                                                    <a href="index.jsp?id=<%= p.getId() %>" class="btn btn-warning btn-sm me-2" title="Editar este programador">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                    </a>
+                                                    <form method="post" action="borrar.jsp" style="display:inline;">
+                                                        <input type="hidden" name="id" value="<%= p.getId() %>">
+                                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar este programador?')" title="Eliminar este programador">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                <%      }
+                                    }
+                                } else { %>
                                     <tr>
-                                        <td colspan="7" class="text-center">No hay programadores registrados.</td>
+                                        <td colspan="6" class="text-center">No hay programadores registrados.</td>
                                     </tr>
                                 <% } %>
                             </tbody>

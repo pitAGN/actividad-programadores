@@ -12,7 +12,12 @@
             session.setAttribute("logueado", true);
             session.setAttribute("id", p.getId());
             session.setAttribute("nombre", p.getNombre());
-            response.sendRedirect("index.jsp");
+
+            if ("admin".equalsIgnoreCase(p.getNombre())) {
+                response.sendRedirect("index_admin.jsp");
+            } else {
+                response.sendRedirect("index.jsp");
+            }
             return;
         } else {
             request.setAttribute("error", "Credenciales inválidas");
@@ -23,11 +28,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <%-- Added for better responsiveness --%>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Iniciar Sesión</title>
-    <%-- Bootstrap CSS (ensure this path is correct relative to your project) --%>
+
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <%-- Custom styles (ensure this path is correct relative to your project) --%>
+
+    <!-- Tu CSS personalizado -->
     <link rel="stylesheet" href="style2.css">
 </head>
 <body>
@@ -35,20 +42,22 @@
         <div class="login-box">
             <h2>Login</h2>
             <form method="post">
-                <div class="form-group mb-3"> <%-- Added Bootstrap class for spacing --%>
+                <div class="form-group mb-3"> 
                     <input type="text" class="form-control" name="nombre" placeholder="Nombre" required>
                 </div>
-                <div class="form-group mb-3"> <%-- Added Bootstrap class for spacing --%>
+                <div class="form-group mb-3"> 
                     <input type="password" class="form-control" name="password" placeholder="Contraseña" required>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Entrar</button> <%-- w-100 makes button full width --%>
+                <button type="submit" class="btn btn-primary w-100">Entrar</button>
             </form>
+
             <% if (request.getAttribute("error") != null) { %>
-                <p class="error-msg mt-3 text-danger"><%= request.getAttribute("error") %></p> <%-- Added Bootstrap text-danger and mt-3 --%>
+                <p class="error-msg mt-3 text-danger"><%= request.getAttribute("error") %></p> 
             <% } %>
         </div>
     </div>
-    <%-- Optional: Bootstrap JS for components if you plan to use them --%>
+
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
